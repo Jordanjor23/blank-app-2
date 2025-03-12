@@ -142,18 +142,18 @@ if page == 'Model Training and Evaluation':
         ])
         # Initialize the selected model
         if model_option == "K-Nearest Neighbors":
-            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value ='')
+            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value =3)
             model = KNeighborsClassifier(n_neighbors=k)
         elif model_option == "Logistic Regression":
             model = LogisticRegression()
-            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value ='')
+            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value =4)
             model = KNeighborsClassifier(n_neighbors=k)
         elif model_option == "Random Forest":
             model = RandomForestClassifier()
-            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value ='')
+            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value =5)
             model = KNeighborsClassifier(n_neighbors=k)
 
-
+        if model_option == "K-Nearest Neighbors":
             # Fit the pipeline to the training data
             from sklearn.pipeline import Pipeline
        
@@ -190,6 +190,7 @@ if page == 'Model Training and Evaluation':
             st.write(f"Test Accuracy: {pipeline_lr.score(X_test, y_test):.2f}")
 
             # Display confusion matrix
+            import matplotlib.pyplot as plt
             st.subheader("Confusion Matrix")
             fig, ax = plt.subplots()
             y_pred = pipeline_lr.predict(X_test)
@@ -231,7 +232,8 @@ if page == 'Model Training and Evaluation':
                 st.write(f"Training Accuracy: {pipeline_rf.score(X_train, y_train):.2f}")
                 st.write(f"Test Accuracy: { pipeline_rf.score(X_test, y_test):.2f}")
 
-            # Display confusion matrix
+                # Display confusion matrix
+                import matplotlib.pyplot as plt
                 st.subheader("Confusion Matrix")
                 fig, ax = plt.subplots()
                 y_pred = pipeline_lr.predict(X_test)
