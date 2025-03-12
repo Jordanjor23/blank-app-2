@@ -142,16 +142,12 @@ if page == 'Model Training and Evaluation':
         ])
         # Initialize the selected model
         if model_option == "K-Nearest Neighbors":
-            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value =3)
-            model = KNeighborsClassifier(n_neighbors=k)
+            model = KNeighborsClassifier()
         elif model_option == "Logistic Regression":
-            model = LogisticRegression()
-            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value =4)
-            model = KNeighborsClassifier(n_neighbors=k)
+           model=LogisticRegression
         elif model_option == "Random Forest":
             model = RandomForestClassifier()
-            k = st.sidebar.slider("Select the number of neighbors (k)", min_value=1, max_value=20, value =5)
-            model = KNeighborsClassifier(n_neighbors=k)
+           
 
         if model_option == "K-Nearest Neighbors":
             # Fit the pipeline to the training data
@@ -197,46 +193,46 @@ if page == 'Model Training and Evaluation':
             ConfusionMatrixDisplay.from_predictions( y_test, y_pred, ax=ax, cmap='Reds')
             st.pyplot(fig)
 
-            if model_option == "Random Forest":
-                # Identify categorical and numerical features
-                categorical_features = X_train.select_dtypes(include=['object']).columns
-                numerical_features = X_train.select_dtypes(exclude=['object']).columns
+        if model_option == "Random Forest":
+            # Identify categorical and numerical features
+            categorical_features = X_train.select_dtypes(include=['object']).columns
+            numerical_features = X_train.select_dtypes(exclude=['object']).columns
 
-                # Create transformers for numerical and categorical features
-                numerical_transformer = Pipeline(steps=[
-                ('scaler', StandardScaler())
-                ])
+            # Create transformers for numerical and categorical features
+            numerical_transformer = Pipeline(steps=[
+            ('scaler', StandardScaler())
+            ])
 
-                categorical_transformer = Pipeline(steps=[
-                ('onehot', OneHotEncoder(sparse_output=False, handle_unknown='ignore'))  
-                ])
+            categorical_transformer = Pipeline(steps=[
+            ('onehot', OneHotEncoder(sparse_output=False, handle_unknown='ignore'))  
+            ])
 
-                # Combine transformers using ColumnTransformer
-                preprocessor = ColumnTransformer(
-                transformers=[
-                ('num', numerical_transformer, numerical_features),
-                ('cat', categorical_transformer, categorical_features)
-                ])
+            # Combine transformers using ColumnTransformer
+            preprocessor = ColumnTransformer(
+            transformers=[
+            ('num', numerical_transformer, numerical_features),
+            ('cat', categorical_transformer, categorical_features)
+            ])
 
-                # Create a pipeline with preprocessing and RandomForestClassifier
-                pipeline_rf = Pipeline(steps=[  # Changed pipeline name to pipeline_rf
-                ('preprocessor', preprocessor),
-                ('classifier', RandomForestClassifier()) 
+            # Create a pipeline with preprocessing and RandomForestClassifier
+            pipeline_rf = Pipeline(steps=[  # Changed pipeline name to pipeline_rf
+            ('preprocessor', preprocessor),
+            ('classifier', RandomForestClassifier()) 
 
-                ])
-                # Fit the pipeline to the training data
-                pipeline_rf.fit(X_train, y_train)  # Using pipeline_rf for fitting
+            ])
+            # Fit the pipeline to the training data
+            pipeline_rf.fit(X_train, y_train)  # Using pipeline_rf for fitting
 
-                # Display training and test accuracy
-                st.write(f"**Model Selected: {model_option}**")
-                st.write(f"Training Accuracy: {pipeline_rf.score(X_train, y_train):.2f}")
-                st.write(f"Test Accuracy: { pipeline_rf.score(X_test, y_test):.2f}")
+            # Display training and test accuracy
+            st.write(f"**Model Selected: {model_option}**")
+            st.write(f"Training Accuracy: {pipeline_rf.score(X_train, y_train):.2f}")
+            st.write(f"Test Accuracy: { pipeline_rf.score(X_test, y_test):.2f}")
 
-                # Display confusion matrix
-                import matplotlib.pyplot as plt
-                st.subheader("Confusion Matrix")
-                fig, ax = plt.subplots()
-                y_pred = pipeline_lr.predict(X_test)
-                ConfusionMatrixDisplay.from_predictions(y_test, y_pred, ax=ax, cmap='Greens')
-                st.pyplot(fig)
+            # Display confusion matrix
+            import matplotlib.pyplot as plt
+            st.subheader("Confusion Matrix")
+            fig, ax = plt.subplots()
+            y_pred = pipeline_rf.predict(X_test)
+            ConfusionMatrixDisplay.from_predictions(y_test, y_pred, ax=ax, cmap='Greens')
+            st.pyplot(fig)
 
