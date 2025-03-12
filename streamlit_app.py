@@ -10,7 +10,7 @@ import plotly.express as px
 #Sidebar
 
 
-page = st.sidebar.selectbox("Select a page", ['Home', 'Data Overview', 'Exploratory Data Analysis','Model Training and Evaluation','Make Predictions','Final Thoughts'])
+page = st.sidebar.selectbox("Select a page", ['Home', 'Data Overview', 'Exploratory Data Analysis','Model Training and Evaluation','Final Thoughts'])
 
 #Display Pages
 
@@ -52,32 +52,31 @@ elif page == 'Exploratory Data Analysis':
     if page == 'Exploratory Data Analysis':
     
         st.subheader("Select the type of visualization you'd like to explore:")
-    eda_type = st.multiselect('Visualization Options', ['Histograms', 'Box Plots', 'Scatterplots', 'Box Plots'])
-    airline = pd.read_csv ("./airline_cleaned.csv") 
-    obj_cols = airline.select_dtypes(include='object').columns.tolist()
-    num_cols = airline.select_dtypes(include='number').columns.tolist()
+        eda_type = st.multiselect('Visualization Options', ['Histograms', 'Box Plots', 'Scatterplots', 'Box Plots'])
+        airline = pd.read_csv ("./airline_cleaned.csv") 
+        obj_cols = airline.select_dtypes(include='object').columns.tolist()
+        num_cols = airline.select_dtypes(include='number').columns.tolist()
 
-    if 'Histograms' in eda_type:
-        st.subheader("Histograms - Visualizing the Data")
-        st.plotly_chart(px.histogram(airline, x='Age', color='satisfaction'))
+        if 'Histograms' in eda_type:
+            st.subheader("Histograms - Visualizing the Data")
+            st.plotly_chart(px.histogram(airline, x='Age', color='satisfaction'))
 
-    if 'Box Plots' in eda_type:
-        st.subheader("Box Plots - Visualizing Numerical Distributions")
-        st.plotly_chart(px.box(airline, x='Class', y='Age', color='satisfaction'))
+        if 'Box Plots' in eda_type:
+            st.subheader("Box Plots - Visualizing Numerical Distributions")
+            st.plotly_chart(px.box(airline, x='Class', y='Age', color='satisfaction'))
 
-    if 'Scatterplots' in eda_type:
-        st.subheader("Scatterplots - Visualizing Relationships")
-        st.plotly_chart(px.scatter(airline, x='Age', y='Flight Distance', color='satisfaction'))
+        if 'Scatterplots' in eda_type:
+            st.subheader("Scatterplots - Visualizing Relationships")
+            st.plotly_chart(px.scatter(airline, x='Age', y='Flight Distance', color='satisfaction'))
 
-    if 'Box Plots' in eda_type:
-        st.subheader("Box Plots - Visualizing Numberical Distributions II")
-        st.plotly_chart(px.box(airline, x='Class', y='Flight Distance', color='satisfaction')) 
+        if 'Box Plots' in eda_type:
+            st.subheader("Box Plots - Visualizing Numberical Distributions II")
+            st.plotly_chart(px.box(airline, x='Class', y='Flight Distance', color='satisfaction')) 
 
 
 elif page == 'Model Training and Evaluation':
     st.title('Model Training and Evaluation')
-elif page == 'Make Predictions':
-    st.title('Make Predictions')
+
 
 elif page == 'Final Thoughts':
     st.title('Final Thoughts')
@@ -236,3 +235,9 @@ if page == 'Model Training and Evaluation':
             ConfusionMatrixDisplay.from_predictions(y_test, y_pred, ax=ax, cmap='Greens')
             st.pyplot(fig)
 
+if page == 'Final Thoughts':
+
+    st.subheader("📊 Final Thoughts")
+    st.write("The airline satisfaction prediction project aimed to evaluted how satsified customers were with different elements of the flight experience. The dataset included categorical and numerical data like online boarding, satisfaction, flight distance, class, and so much more. By modeling different categories of the dataset, like flight distance and satisaction, I found that customers are likely to be satisfied with shorter distance rather than longer distance. The data visualizations support that customers under 60 are likely to be satsified with their experience and treament in airports. This dataset was very interesting and meanigful. The use case provided a real-world scenario where the data analyst had to clean, visualize, and model the data. ")
+    st.image('./airline4.jpg')
+            
